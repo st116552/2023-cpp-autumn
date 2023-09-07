@@ -13,4 +13,5 @@ int main()
     fout.open("output.txt");
     fout << a + b;
     fout.close();
+    return 0;
 }
