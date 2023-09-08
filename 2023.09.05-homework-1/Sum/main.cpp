@@ -12,7 +12,7 @@ int main()
     fin >> n;
     fin.close();
     if (n <= 0) {
-        sum = (n + 1) * (abs(n) + 2) / 2;
+        sum = (n + 1) * (2 - n) / 2;
     } else {
         sum = (n + 1) * n / 2;
     }
