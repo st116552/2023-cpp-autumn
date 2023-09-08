@@ -4,14 +4,14 @@ using namespace std;
 
 int main() 
 {
-    int n;
+    int a,b;
     ifstream fin;
     fin.open("input.txt");
-    fin >> n;
+    fin >> a >> b;
     fin.close();
     ofstream fout;
     fout.open("output.txt");
-    fout << n * 100 + 90 + 9 - n;
+    fout << a + b;
     fout.close();
     return 0;
 }
