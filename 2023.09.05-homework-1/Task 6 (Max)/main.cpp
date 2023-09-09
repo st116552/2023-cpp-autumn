@@ -3,7 +3,8 @@ using namespace std;
 
 int main()
 {
-    int a,b;
+    int a = 0;
+    int b = 0;;
     ifstream fin;
     fin.open("input.txt");
     fin >> a >> b;
