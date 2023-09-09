@@ -5,8 +5,8 @@ using namespace std;
 
 int main() 
 {
-    int n;
-    int sum;
+    int n = 0;
+    int sum = 0;
     ifstream fin;
     fin.open("input.txt");
     fin >> n;
