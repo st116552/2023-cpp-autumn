@@ -4,7 +4,7 @@ using namespace std;
 
 int main() 
 {
-    int n;
+    int n = 0;
     ifstream fin;
     fin.open("input.txt");
     fin >> n;
