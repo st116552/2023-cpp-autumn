@@ -4,7 +4,8 @@ using namespace std;
 
 int main() 
 {
-    long long a, ans;
+    long long a = 0;
+    long long ans = 0;;
     ifstream fin;
     fin.open("input.txt");
     fin >> a;
