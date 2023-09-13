@@ -1,17 +1,9 @@
-#include <fstream>
-
-using namespace std;
+#include <iostream>
 
 int main() 
 {
     int n = 0;
-    ifstream fin;
-    fin.open("input.txt");
-    fin >> n;
-    fin.close();
-    ofstream fout;
-    fout.open("output.txt");
-    fout << n * 100 + 90 + 9 - n;
-    fout.close();
+    std::cin >> n;
+    std::cout << n * 100 + 90 + 9 - n;
     return 0;
 }
