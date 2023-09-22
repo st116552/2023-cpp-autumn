@@ -16,5 +16,5 @@ int main()
     {
         std::cout << n << " bochek";
     }
-
+    return 0;
 }
