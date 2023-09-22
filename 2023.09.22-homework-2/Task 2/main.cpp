@@ -22,5 +22,5 @@ int main()
     {
         std::cout << "NO";
     }
- 
+    return 0;
 }
