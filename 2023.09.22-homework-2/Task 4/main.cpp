@@ -46,6 +46,6 @@ int main()
     std::cout << n5 << " ";
     std::cout << n10 << " ";
     std::cout << n20 << " ";
-    std::cout << n60 << " ";
+    std::cout << n60;
     return 0;
 }
