@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
             positiveNum++;
         }
     }
-	free(arr);
+    free(arr);
     std::cout << positiveNum;
     return 0;
 }
