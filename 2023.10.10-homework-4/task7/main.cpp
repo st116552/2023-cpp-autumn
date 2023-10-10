@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
     {
         *(arr + i) = *(ansArr + i);
     }
-	free(ansArr);
+    free(ansArr);
     for (int i = 0; i < newSize; i++) 
     {        
         std::cout << *(arr + i) << " ";

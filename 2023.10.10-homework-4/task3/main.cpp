@@ -17,6 +17,6 @@ int main(int argc, char* argv[])
             std::cout << *(arr + i) << " ";
         }
     }
-	free(arr);
+    free(arr);
     return 0;
 }

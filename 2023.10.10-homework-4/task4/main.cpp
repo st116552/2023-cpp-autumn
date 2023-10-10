@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
             max = *(arr + i);
         }
     }
-	free(arr);
+    free(arr);
     std::cout << max;
     return 0;
 }
