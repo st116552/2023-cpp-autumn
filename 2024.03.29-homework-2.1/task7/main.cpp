@@ -1,5 +1,5 @@
 #include<iostream>
- 
+  
 struct SEdge {
     int a;
     int b;
@@ -15,7 +15,7 @@ struct SEdge {
     }
     friend std::ostream& operator<<(std::ostream& stream, const SEdge& edge);
 };
- 
+  
 class CGraph {
 public:
     CGraph();
@@ -28,7 +28,7 @@ public:
     int getEdgesCountFromMatrix();
     int* getVertexesPowerCountFromEdges(int vertex, int edges);
     void PrintVertexesPower(int vertex, int edges);
- 
+  
 private:
     void init();
     void initMatrix();
@@ -39,28 +39,28 @@ private:
     void dispose();
     void disposeMatrix();
     void disposeEdges();
- 
+  
     int _vertexes;
     int _edges;
     int** _matrix;
     SEdge* _edge;
 };
- 
- 
+  
+  
 CGraph::CGraph()
     : _vertexes(0), _edges(0), _matrix(0), _edge(0) {}
- 
+  
 CGraph::CGraph(int vertexes, int edges)
     : _vertexes(vertexes), _edges(edges), _matrix(0), _edge(0)
 {
     init();
 }
- 
+  
 CGraph::~CGraph()
 {
     dispose();
 }
- 
+  
 void CGraph::PrintMatrix()
 {
     if (_matrix == 0)
@@ -81,7 +81,7 @@ void CGraph::PrintMatrix()
         std::cout << std::endl;
     }
 }
- 
+  
 void CGraph::PrintEdges()
 {
     if (_edge == 0)
@@ -98,7 +98,7 @@ void CGraph::PrintEdges()
         std::cout << _edge[i] << std::endl;
     }
 }
- 
+  
 void CGraph::ReadMatrix(int vertexes)
 {
     _vertexes = vertexes;
@@ -111,7 +111,7 @@ void CGraph::ReadMatrix(int vertexes)
         }
     }
 }
- 
+  
 void CGraph::ReadEdges(int edges, bool haveweight)
 {
     _edges = edges;
@@ -125,14 +125,14 @@ void CGraph::ReadEdges(int edges, bool haveweight)
         }
     }
 }
- 
+  
 void CGraph::init()
 {
     dispose();
     initMatrix();
     initEdges();
 }
- 
+  
 void CGraph::initMatrix()
 {
     if (_vertexes == 0)
@@ -148,7 +148,7 @@ void CGraph::initMatrix()
         }
     }
 }
- 
+  
 void CGraph::initEdges()
 {
     if (_edges == 0)
@@ -157,7 +157,7 @@ void CGraph::initEdges()
     }
     _edge = new SEdge[_edges];
 }
- 
+  
 void CGraph::initMatrixFromEdges()
 {
     disposeMatrix();
@@ -168,26 +168,26 @@ void CGraph::initMatrixFromEdges()
         _matrix[_edge[i].a][_edge[i].b] = _edge[i].w;
     }
 }
- 
+  
 int CGraph::getEdgesCountFromMatrix()
 {
     int count = 0;
     for (int i = 0; i < _vertexes; ++i)
     {
-        for (int j = i; j < _vertexes; ++j)
+        for (int j = 0; j < _vertexes; ++j)
         {
             count += (_matrix[i][j] != 0);
         }
     }
     return count;
 }
- 
+  
 void CGraph::dispose()
 {
     disposeMatrix();
     disposeEdges();
 }
- 
+  
 void CGraph::disposeMatrix()
 {
     if (_matrix != 0)
@@ -200,7 +200,7 @@ void CGraph::disposeMatrix()
         _matrix = 0;
     }
 }
- 
+  
 void CGraph::disposeEdges()
 {
     if (_edge != 0)
@@ -209,7 +209,7 @@ void CGraph::disposeEdges()
         _edge = 0;
     }
 }
- 
+  
 void CGraph::initEdgesFromMatrix()
 {
     disposeEdges();
@@ -226,7 +226,7 @@ void CGraph::initEdgesFromMatrix()
         }
     }
 }
- 
+  
 int CGraph::getVertexesCountFromEdges()
 {
     int res = 0;
@@ -237,7 +237,7 @@ int CGraph::getVertexesCountFromEdges()
     }
     return res + 1;
 }
- 
+  
 std::ostream & operator<<(std::ostream & stream, const SEdge & edge)
 {
     stream << edge.a << " " << edge.b;
@@ -247,8 +247,8 @@ std::ostream & operator<<(std::ostream & stream, const SEdge & edge)
     }
     return stream;
 }
-
-
+ 
+ 
 int* CGraph::getVertexesPowerCountFromEdges(int vertex, int edges) 
 {
     int* ans = new int[vertex];
@@ -263,7 +263,7 @@ int* CGraph::getVertexesPowerCountFromEdges(int vertex, int edges)
     }
     return ans;
 }
-
+ 
 void CGraph::PrintVertexesPower(int vertex, int edges) 
 {
     int* ans = this->getVertexesPowerCountFromEdges(vertex, edges);
@@ -272,12 +272,12 @@ void CGraph::PrintVertexesPower(int vertex, int edges)
         std::cout << ans[i] << " ";
     }
 }
- 
+  
 int main() {
     int n = 0;
-    int m = 0;
-    std::cin >> n >> m;
-    CGraph gph = CGraph(n, m);
-    gph.ReadEdges(m);
-    gph.PrintVertexesPower(n, m);
+    std::cin >> n;
+    CGraph gph = CGraph();
+    gph.ReadMatrix(n);
+    std::cout << n << " " << gph.getEdgesCountFromMatrix() << "\n";
+    gph.PrintEdges();
 }

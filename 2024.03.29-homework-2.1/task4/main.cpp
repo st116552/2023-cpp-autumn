@@ -1,9 +1,10 @@
 #include <iostream>
  
-int main() 
-{
+int main() {
     int n = 0;
-    int tmp = 0;
+    int tmp1 = 0;
+    int tmp2 = 0;
+    int minSum = 10000;
     std::cin >> n;
     int** matrix = new int*[n];
     int* colors = new int[n];
@@ -14,15 +15,15 @@ int main()
         }
     }
     for (int i = 0; i < n; i++) {
-        std::cin >> colors[i];
-    }
-    for (int i = 0; i < n; i++) {
         for (int j = i + 1; j < n; j++) {
-            if (matrix[i][j] == 1 && colors[i] != colors[j]) {
-                tmp++;
+            for (int k = j + 1; k < n; k++) {
+                if (minSum > matrix[i][j] + matrix[j][k] + matrix[k][i]) {
+                    minSum = matrix[i][j] + matrix[j][k] + matrix[k][i];
+                    //std::cout << i << " " << j << " " << k << "\n"; 
+                }
             }
         }
     }
-    std::cout << tmp;
+    std::cout << minSum;
     return 0;
 }
