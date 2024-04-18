@@ -4,7 +4,6 @@ struct Node
 {
     int data;
     Node* next;
-    //конструкторы(2), деструктор, оператор вывода
     Node(int data, Node* next = 0) : data(data), next(next) {}
 	Node(const Node& node) : data(node.data), next(0) {}
 	~Node() { data = 0; next = 0; }
@@ -44,8 +43,6 @@ public:
     //оператор вывода в поток
 	friend std::ostream& operator<<(std::ostream& stream, const LinkedList& list);
 
-	void CheckPrivateF();
-
 private:
     void dispose();    
 	int PopData(Node* node);
@@ -82,13 +79,6 @@ int main(int argc, char* argv[])
     std::cout << list << std::endl;
     list.sort();
     std::cout << list << std::endl;
-
-    std::cout << list.Data(3) << std::endl;
-    std::cout << list << std::endl << std::endl;
-	list.swap(4, 2);
-    std::cout << list << std::endl << std::endl;
-	list.CheckPrivateF();
-    std::cout << list << std::endl << std::endl;
 	
     return 0;
 }
@@ -395,14 +385,4 @@ void LinkedList::sort()
         tmp1 = head;
         tmp2 = tmp2->next;
     }
-}
-
-void LinkedList::CheckPrivateF()
-{
-	
-    std::cout << ExtractNode(5)->data << std::endl;
-	Node* tmp = new Node(7, 0);
-	std::cout << PopData(tmp) << std::endl;
-	tmp->data = 11;
-	InsertNode(2, tmp);
 }
