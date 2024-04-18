@@ -45,11 +45,9 @@ public:
 	friend std::ostream& operator<<(std::ostream& stream, const LinkedList& list);
 
 private:
-    void dispose();
-
-    //извлекает данные из ноды и удаляет саму ноду
-    int PopData(Node* node); //!
-    void InsertNode(int index, Node* node); //!
+    void dispose();    
+	int PopData(Node* node);
+    void InsertNode(int index, Node* node); 
     Node* ExtractNode(int index); //!
     bool IndexValid(int index);
 
@@ -260,4 +258,94 @@ std::ostream& operator<<(std::ostream& stream, const LinkedList& list)
 		tmp = tmp->next;
 	}
 	return stream;
+}
+
+int LinkedList::Data(int index)
+{
+	if (!IndexValid(index))
+	{
+		std::cout << "LinkedList index out of bounds";
+		return -1;
+	}
+	Node* tmp = head;
+	for (int i = 0; i < index; i++)
+	{
+		tmp = tmp->next;
+	}
+	return tmp->data;
+}
+
+int LinkedList::PopData(Node* node)
+{
+	if (head == node)
+	{
+		return PopHead();
+	}
+	Node* tmp = head;
+	while (tmp->next != node)
+	{
+		if (tmp->next == 0)
+		{
+			std::cout << "No such Node in LinkedList";
+			return -1;
+		}
+		tmp = tmp->next;
+	}
+	Node* res = tmp->next;
+	delete tmp->next;
+	tmp->next = res->next;
+	return res->data;
+}
+
+void LinkedList::InsertNode(int index, Node* node)
+{
+	if (!IndexValid(index)) {
+		std::cout << "LinkedList index out of bounds";
+		return;
+	}
+	Node* tmp = head;
+	for (int i = 0; i < index - 1; ++i)
+	{
+		tmp = tmp->next;
+	}
+	
+	//если нужено только добавить один узел
+	Node* nres = tmp->next;
+	tmp->next = node;
+	node->next = nres;
+	//если нужен новое окончание 
+	/*
+	
+	Node* nres1 = tmp->next;
+	Node* nres2 = nres1->next;
+	while (nres2 != 0) {
+		delete nres1;
+		nres1 = nres2;
+		nres2 = nres2->next;
+	}
+	tmp->next = node;
+	*/
+
+}
+
+Node* LinkedList::ExtractNode(int index)
+{
+	if (index == 0)
+	{
+		return head;
+	}
+	if (!IndexValid(index))
+	{
+		std::cout << "LinkedList index out of bounds";
+		return 0;
+	}
+	Node* tmp = head;
+	for (int i = 0; i < index - 1; ++i)
+	{
+		tmp = tmp->next;
+	}
+	Node* nres = tmp->next;
+	tmp->next = tmp->next->next;
+	int res = nres->data;
+	return nres;
 }
