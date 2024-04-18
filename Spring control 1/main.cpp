@@ -44,6 +44,8 @@ public:
     //оператор вывода в поток
 	friend std::ostream& operator<<(std::ostream& stream, const LinkedList& list);
 
+	void CheckPrivateF();
+
 private:
     void dispose();    
 	int PopData(Node* node);
@@ -82,6 +84,10 @@ int main(int argc, char* argv[])
     std::cout << list << std::endl;
 
     std::cout << list.Data(3) << std::endl;
+    std::cout << list << std::endl << std::endl;
+	list.swap(4, 2);
+    std::cout << list << std::endl << std::endl;
+	list.CheckPrivateF();
     std::cout << list << std::endl << std::endl;
 	
     return 0;
@@ -213,7 +219,7 @@ void LinkedList::swap(int a, int b)
 	{
 		return swapWithHead(b);
 	}
-	if (!IndexValid(a) && !IndexValid(b)) 
+	if (IndexValid(a) && IndexValid(b)) 
 	{
 		Node* tmp1 = head;
 		int dataA = Data(a);
@@ -303,7 +309,7 @@ int LinkedList::PopData(Node* node)
 		return PopHead();
 	}
 	Node* tmp = head;
-	while (tmp->next != node)
+	while (tmp->next->data != node->data)
 	{
 		if (tmp->next == 0)
 		{
@@ -313,7 +319,6 @@ int LinkedList::PopData(Node* node)
 		tmp = tmp->next;
 	}
 	Node* res = tmp->next;
-	delete tmp->next;
 	tmp->next = res->next;
 	return res->data;
 }
@@ -390,4 +395,14 @@ void LinkedList::sort()
         tmp1 = head;
         tmp2 = tmp2->next;
     }
+}
+
+void LinkedList::CheckPrivateF()
+{
+	
+    std::cout << ExtractNode(5)->data << std::endl;
+	Node* tmp = new Node(7, 0);
+	std::cout << PopData(tmp) << std::endl;
+	tmp->data = 11;
+	InsertNode(2, tmp);
 }
