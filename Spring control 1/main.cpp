@@ -48,7 +48,7 @@ private:
     void dispose();    
 	int PopData(Node* node);
     void InsertNode(int index, Node* node); 
-    Node* ExtractNode(int index); //!
+    Node* ExtractNode(int index);
     bool IndexValid(int index);
 
 	void swapWithHead(int index);
@@ -80,6 +80,10 @@ int main(int argc, char* argv[])
     std::cout << list << std::endl;
     list.sort();
     std::cout << list << std::endl;
+
+    std::cout << list.Data(3) << std::endl;
+    std::cout << list << std::endl << std::endl;
+	
     return 0;
 }
 
@@ -208,6 +212,23 @@ void LinkedList::swap(int a, int b)
 	if (a == 0)
 	{
 		return swapWithHead(b);
+	}
+	if (!IndexValid(a) && !IndexValid(b)) 
+	{
+		Node* tmp1 = head;
+		int dataA = Data(a);
+		int dataB = Data(b);
+		for (int i = 0; i < a; ++i) 
+		{
+			tmp1 = tmp1->next;
+		}
+		tmp1->data = dataB;
+		tmp1 = head;
+		for (int i = 0; i < b; ++i) 
+		{
+			tmp1 = tmp1->next;
+		}
+		tmp1->data = dataA;
 	}
 }
 
@@ -348,4 +369,25 @@ Node* LinkedList::ExtractNode(int index)
 	tmp->next = tmp->next->next;
 	int res = nres->data;
 	return nres;
+}
+
+void LinkedList::sort()
+{
+    Node* tmp1 = head;
+    Node* tmp2 = head;
+    while (tmp2 != 0)
+    {
+        while (tmp1->next != 0)
+        {
+            if (tmp1->data > tmp1->next->data)
+            {
+                int tmpData = tmp1->data;
+                tmp1->data = tmp1->next->data;
+                tmp1->next->data = tmpData;
+            }
+            tmp1 = tmp1->next;
+        }
+        tmp1 = head;
+        tmp2 = tmp2->next;
+    }
 }
