@@ -1,28 +1,47 @@
-//библиотека для ввода-вывода из-в консоль
+//library for I/O from the console
 #include<iostream>
-//ребро
+//edge
 struct SEdge {
-	//начало
+	//start
 	int a;
-	//конец
+	//end
 	int b;
-	//вес
+	// weight
 	int w;
-	//конструктор
-	SEdge(int a = 0, int b = 0, int w = 1) : a(a), b(b), w(w) {}
-	//конструктор копирования
+	//constructor
+	SEdge(int a = 0, int b = 0, int w = 0) : a(a), b(b), w(w) {}
+	//copy constructor
 	SEdge(const SEdge& src) : a(src.a), b(src.b), w(src.w) {}
-	//деконструктор
+	SEdge(SEdge&& src)
+	{
+		a = src.a;
+		b = src.b;
+		w = src.w;
+		src.a = 0;
+		src.b = 0;
+		src.w = 0;
+	}
+	//deconstructor
 	~SEdge() {}
-	//оператор вывода
+	//the output operator
 	friend std::ostream& operator<<(std::ostream& stream, const SEdge& edge);
+	// assignment operator
+	SEdge& operator=(const SEdge& edge)
+	{
+		if (&edge != this)
+		{
+			a = edge.a;
+			b = edge.b;
+			w = edge.w;
+		}
+	}
 };
-//граф
+//graph
 class CGraph {
 public:
-	//конструктор
+	//constructor
 	CGraph(int n = 1) : _n(n), _matr(0) { initMatrix(); };
-	//конструктор копирования
+	//copy constructor
 	CGraph(const CGraph& src) : _n(src._n) {
 		initMatrix();
 		for (int i = 0; i < _n; ++i)
@@ -33,46 +52,75 @@ public:
 			}
 		}
 	}
-	//деконструктор
+	//move constructor
+	CGraph(CGraph&& src)
+	{
+		_n = src._n;
+		initMatrix();
+		for (int i = 0; i < _n; ++i)
+		{
+			for (int j = 0; j < _n; ++j)
+			{
+				_matr[i][j] = src._matr[i][j];
+			}
+		}
+		src.disposeMatrix();
+		src._n = 0;
+
+	}
+	//deconstructor
 	~CGraph() { disposeMatrix(); }
-	//считывание графа из матрицы смежности
+	//reading a graph from an adjacency matrix
 	void readMatrix();
-	//считывание графа из списка смежности
+	//reading a graph from the adjacency list
 	void readAdj();
-	//считывание графа из списка ребер
+	//reading a graph from a list of edges
 	void readEdges();
-	//вывод графа в матрицу смежности
+	//graph output to the adjacency matrix
 	void printMatrix();
-	//вывод графа в список смежности
+	//output graph to the adjacency list
 	void printAdj();
-	//вывод графа в список ребер
+	//outputting a graph to a list of edges
 	void printEdges();
-	//вывод степеней вершин
+	//output of vertex degrees
 	void printPowers();
-	//полный ли граф?
+	//is the graph complete?
 	bool isFull();
-	//ориентированный ли граф?
+	//is the graph oriented?
 	bool isOriented();
-	//регулярный ли граф?
+	//is the graph regular?
 	bool isRegular();
-	//вывести MST используя алогритм Прима
-    void printMSTPrima();
-	//вывести MST используя алогритм Краскала
+	//output MST using the algorithm of the Prime
+   	 void printMSTPrima();
+	//output MST using the Paint algorithm
     void printMSTKruskal();
+	//assignment operator
+	CGraph& operator=(const CGraph& src)
+	{
+		_n = src._n;
+		initMatrix();
+		for (int i = 0; i < _n; ++i)
+		{
+			for (int j = 0; j < _n; ++j)
+			{
+				_matr[i][j] = src._matr[i][j];
+			}
+		}
+	}
 private:
-	//кол-во ребер
+	//number of edges
 	int edgeNumber();
-	//отсортированный по возрастанию список ребер
+	//an ascending list of edges
 	SEdge* sortedEdges();
-	//выделение памяти под матрицу смежности графв и заполнение ее 0и
+	//allocating memory for the graph adjacency matrix and filling it with 0
 	void initMatrix();
-	//очищение памяти выделенной под матрицу смежности графа
+	//clearing the memory allocated for the adjacency matrix of the graph
 	void disposeMatrix();
-	//степень вершны vertex
+	//vertex degree
 	int power(int vertex);
-	//кол-во вершин
+	//number of vertices
 	int _n;
-	//матрица смежности
+	//adjacency matrix
 	int** _matr;
 };
 
@@ -150,7 +198,7 @@ void CGraph::printMSTKruskal()
 			ansTmp++;
 			int oldColor = treeColor[b];
 			int newColor = treeColor[a];
-			//обьединяем деревья
+			//joining trees
 			for (int j = 0; j < _n; ++j)
 			{
 				if (treeColor[j] == oldColor)
@@ -160,7 +208,7 @@ void CGraph::printMSTKruskal()
 			}
 		}
 	}
-	//преобразование и вывод MST
+	//converting and outputting MST
 	int** ansMatr = new int*[_n];
 	for (int i = 0 ; i < _n; ++i)
 	{
@@ -376,16 +424,16 @@ bool CGraph::isRegular()
 
 void CGraph::printMSTPrima()
 {
-	//проверка ориентированности графа
-	if (isOriented()) 
+	//checking the orientation of the graph
+	if (isOriented())
 	{
-		std::cout << "Graph should not be oriented for Prima alghoritm";
+		std::cout << "Graph should not be oriented for Prima algorithm";
 	}
 	int**ans = new int*[_n];
 	bool* used = new bool[_n];
 	int* priority = new int[_n];
 	int* prev = new int[_n];
-	//заполнение начальными значениями
+	//filling with initial values
 	for (int i = 0; i < _n; ++i)
 	{
 		used[i] = 0;
@@ -401,7 +449,7 @@ void CGraph::printMSTPrima()
 	for (int i = 0; i < _n; ++i) 
 	{
 		int v = -1;
-		//ищем приоритетную вершину
+		//looking for a priority vertex
 		for (int j = 0; j < _n; ++j)
 		{
 			if (!used[j] && (v == -1 || priority[j] < priority[v]))
@@ -412,14 +460,14 @@ void CGraph::printMSTPrima()
 			std::cout << "No MST!";
 			return;
 		}
-		//добавляем ее в поддерево
+		//adding it to the subtree
 		used[v] = true;
 		if (prev[v] != -1)
 		{
 			ans[v][prev[v]] = _matr[v][prev[v]];
 			ans[prev[v]][v] = _matr[v][prev[v]];
 		}
-		//меняем приоритеты исходя из нового поддерева
+		//changing priorities based on the new subtree
 		for (int to = 0; to < _n; ++to)
 		{
 			if (_matr[v][to] < priority[to]) 
@@ -429,7 +477,7 @@ void CGraph::printMSTPrima()
 			}
 		}
 	}
-	//вывод матрицы смежости MST
+	//output of the MST proximity matrix
 	for (int i = 0; i < _n; ++i)
 	{
 		std::cout << "\n";
@@ -498,8 +546,8 @@ int main(int argc, char* argv[])
 	}
 	return 0;
 }
-//оператор вывода ребра
+//edge output operator
 std::ostream &operator<<(std::ostream &stream, const SEdge &edge)
 {
-    std::cout << edge.a << " " << edge.b << " " << edge.w << std::endl;
+	std::cout << edge.a << " " << edge.b << " " << edge.w << std::endl;
 }
