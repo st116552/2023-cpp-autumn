@@ -12,7 +12,8 @@ struct SEdge {
 	SEdge(int a = 0, int b = 0, int w = 0) : a(a), b(b), w(w) {}
 	//copy constructor
 	SEdge(const SEdge& src) : a(src.a), b(src.b), w(src.w) {}
-	SEdge(SEdge&& src)
+	//move constructor
+	SEdge(SEdge&& src) throw()
 	{
 		a = src.a;
 		b = src.b;
@@ -53,7 +54,7 @@ public:
 		}
 	}
 	//move constructor
-	CGraph(CGraph&& src)
+	CGraph(CGraph&& src) throw() 
 	{
 		_n = src._n;
 		initMatrix();
@@ -64,8 +65,7 @@ public:
 				_matr[i][j] = src._matr[i][j];
 			}
 		}
-		src.disposeMatrix();
-		src._n = 0;
+		src.~CGraph();
 
 	}
 	//deconstructor
@@ -97,13 +97,16 @@ public:
 	//assignment operator
 	CGraph& operator=(const CGraph& src)
 	{
-		_n = src._n;
-		initMatrix();
-		for (int i = 0; i < _n; ++i)
+		if (this != &src)
 		{
-			for (int j = 0; j < _n; ++j)
+			_n = src._n;
+			initMatrix();
+			for (int i = 0; i < _n; ++i)
 			{
-				_matr[i][j] = src._matr[i][j];
+				for (int j = 0; j < _n; ++j)
+				{
+					_matr[i][j] = src._matr[i][j];
+				}
 			}
 		}
 	}
