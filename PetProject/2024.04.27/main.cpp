@@ -180,6 +180,7 @@ void CGraph::printMSTKruskal()
 	if (isOriented()) 
 	{
 		std::cout << "Graph should not be oriented for Kruskal alghoritm";
+		return;
 	}
 	int m = edgeNumber();
 	SEdge* edges = sortedEdges();
@@ -209,6 +210,14 @@ void CGraph::printMSTKruskal()
 					treeColor[j] = newColor;
 				}
 			}
+		}
+	}
+	for (int i = 0; i < _n; ++i) 
+	{
+		if (treeColor[0] != treeColor[i])
+		{
+			std::cout << "No MST";
+			return;
 		}
 	}
 	//converting and outputting MST
@@ -293,10 +302,11 @@ void CGraph::readAdj()
 {
 	disposeMatrix();
 	std::cin >> _n;
+	int m = 0;
 	initMatrix();
 	for (int i = 0; i < _n; ++i)
 	{
-		int m = 0;
+		m = 0;
 		std::cin >> m;
 		for (int j = 0; j < m; ++j)
 		{
@@ -320,6 +330,7 @@ void CGraph::readEdges()
 		int j = 0;
 		std::cin >> i >> j;
 		std::cin >> _matr[i - 1][j - 1];
+		_matr[j - 1][i - 1]=_matr[i - 1][j - 1];
 	}
 }
 
@@ -395,9 +406,9 @@ bool CGraph::isOriented()
 {
 	for (int i = 0; i < _n; ++i)
 	{
-		if (_matr[i][i] == 1)
+		if (_matr[i][i] > 1)
 		{
-			return false;
+			return true;
 		}
 	}
 	for (int i = 0; i < _n; ++i)
@@ -431,6 +442,7 @@ void CGraph::printMSTPrima()
 	if (isOriented())
 	{
 		std::cout << "Graph should not be oriented for Prima algorithm";
+		return;
 	}
 	int**ans = new int*[_n];
 	bool* used = new bool[_n];
@@ -456,7 +468,9 @@ void CGraph::printMSTPrima()
 		for (int j = 0; j < _n; ++j)
 		{
 			if (!used[j] && (v == -1 || priority[j] < priority[v]))
+			{
 				v = j;
+			}
 		}
 		if (priority[v] == 100000) 
 		{
@@ -473,7 +487,7 @@ void CGraph::printMSTPrima()
 		//changing priorities based on the new subtree
 		for (int to = 0; to < _n; ++to)
 		{
-			if (_matr[v][to] < priority[to]) 
+			if ((_matr[v][to] != 0)&&(_matr[v][to] < priority[to])) 
 			{
 				priority[to] = _matr[v][to];
 				prev[to] = v;
@@ -529,6 +543,7 @@ int main(int argc, char* argv[])
 	else
 	{
 		std::cout << "Read the instructions carefully and try again((" << std::endl;
+		return 0;
 	}
 	std::cout << "Write what algorithm to implement the search for the minimum spanning tree?" << std::endl;
 	std::cout << "Write <<K>> - if you want the Kruskal algorithm" << std::endl;
